@@ -56,7 +56,7 @@ router.post("/operation", validateToken, express.json(), function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+
 
     const operation = operationSchema(req.body);
     operation.created = new Date();
@@ -92,7 +92,7 @@ router.get("/operation/:id", validateToken, function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+    
 
     const { id } = req.params;
     operationSchema.findById(id).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
@@ -126,7 +126,7 @@ router.get("/operationByUser/:id", function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+
 
     operationSchema.find({idUser:id}).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
@@ -163,7 +163,7 @@ router.put("/operation/:id", validateToken, express.json(), function (req, res) 
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+ 
 
     const { id } = req.params;
     const { name } = req.body;
@@ -195,7 +195,7 @@ router.delete("/operation/:id", validateToken, function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+
 
     const { id } = req.params;
     operationSchema.deleteOne({ _id: id }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
