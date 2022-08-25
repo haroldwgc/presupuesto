@@ -62,9 +62,9 @@ var corsOption = {
         }
     }
 }
-app.options("*", cors({ origin: '*', optionsSuccessStatus: 200 }));
+app.options("*", cors());
 
-app.use(cors({ origin: "*", optionsSuccessStatus: 200 }));
+app.use();
 //mongodb connection
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('conectado a bd de mongo local'))
