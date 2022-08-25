@@ -75,11 +75,11 @@ const validateToken = require('../helper')
  *                 
  */
 router.post("/expense", validateToken, express.json(), function (req, res) {
-
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    next();
 
     const expense = expenseSchema(req.body);
     expense.created = new Date();
@@ -111,11 +111,11 @@ router.post("/expense", validateToken, express.json(), function (req, res) {
  *              description: entry not exist  
  */
 router.get("/expense/byIdOperation/:id", validateToken, function (req, res) {
-
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    next();
 
     const { id } = req.params;
     expenseSchema.find({ idOperation: id }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
@@ -147,10 +147,11 @@ router.get("/expense/byIdOperation/:id", validateToken, function (req, res) {
  */
 router.get("/expense/:id", validateToken, function (req, res) {
 
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    next();
 
     const { id } = req.params;
     expenseSchema.findById(id).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
@@ -174,11 +175,11 @@ router.get("/expense/:id", validateToken, function (req, res) {
  *         $ref: '#/components/schemas/Expense'  
  */
 router.get("/expense", validateToken, function (req, res) {
-
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    next();
 
 
     expenseSchema.find().then((data) => res.json(data)).catch((error) => res.json({ message: error }))
@@ -212,6 +213,11 @@ router.get("/expense", validateToken, function (req, res) {
  *             description: expense not exist  
  */
 router.put("/expense/:id", validateToken, express.json(), function (req, res) {
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    next();
     const { id } = req.params;
     const { idOperation, nameCategory, iconCategory, name, type, amount, dateAmount } = req.body;
     expenseSchema.updateOne({ _id: id }, { $set: { idOperation, nameCategory, iconCategory, name, type, amount, dateAmount } }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
@@ -237,6 +243,11 @@ router.put("/expense/:id", validateToken, express.json(), function (req, res) {
  *             description: expense not exist
  */
 router.delete("/expense/:id", validateToken, function (req, res) {
+    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Credentials", true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    next();
     const { id } = req.params;
     expenseSchema.deleteOne({ _id: id }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
