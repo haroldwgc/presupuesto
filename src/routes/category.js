@@ -70,7 +70,7 @@ router.post("/category", validateToken, express.json(), function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+   
 
     const category = categorySchema(req.body);
     category.save().then((data) => res.json(data)).catch((error) => res.json({ message: error }))
@@ -106,7 +106,7 @@ router.get("/category/:id", validateToken, function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+  
 
     categorySchema.findById(id).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
@@ -133,7 +133,7 @@ router.get("/category", validateToken, function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+    
 
     categorySchema.find().then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
@@ -171,7 +171,7 @@ router.put("/category/:id", validateToken, express.json(), function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+    
 
     const { id } = req.params;
     const { name, description, icon } = req.body;
@@ -203,7 +203,7 @@ router.delete("/category/:id", validateToken, function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+  
 
     const { id } = req.params;
     categorySchema.deleteOne({ _id: id }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))

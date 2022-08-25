@@ -118,7 +118,7 @@ router.get("/budget/byIdOperation/:id", validateToken, function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+   
     const { id } = req.params;
     budgetSchema.find({ idOperation: id }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
@@ -146,7 +146,7 @@ router.get("/budget", validateToken, async function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+
     await budgetSchema.find().then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
 
@@ -234,7 +234,7 @@ router.put("/budget/:id", validateToken, express.json(), async function (req, re
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+  
 
     const { id } = req.params;
     const { idOperation, idCategory, type, amount } = req.body;
@@ -266,7 +266,7 @@ router.delete("/budget/:id", express.json(), async function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+  
 
     const { id } = req.params;
     await budgetSchema.deleteOne({ _id: id }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))

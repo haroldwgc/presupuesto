@@ -60,7 +60,7 @@ router.post("/entry", validateToken, express.json(), function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+  
     const entry = entrySchema(req.body);
     entry.save().then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
@@ -96,7 +96,7 @@ router.get("/entry/:id", validateToken, function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+    
 
     const { id } = req.params;
     entrySchema.findById(id).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
@@ -133,7 +133,7 @@ router.get("/entry/byIdOperation/:id", validateToken, function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+   
 
     const { id } = req.params;
     entrySchema.find({ idOperation: id }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
@@ -162,7 +162,7 @@ router.get("/entry", validateToken, function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+    
 
     entrySchema.find().then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
@@ -198,8 +198,7 @@ router.put("/entry/:id", validateToken, express.json(), function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
-
+   
     const { id } = req.params;
     const { idOperation, name, origin, type } = req.body;
     entrySchema.updateOne({ _id: id }, { $set: { idOperation, name, origin, type } }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
@@ -231,7 +230,7 @@ router.delete("/entry/:id", validateToken, function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
+   
 
     entrySchema.deleteOne({ _id: id }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });

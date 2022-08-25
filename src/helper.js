@@ -9,7 +9,10 @@ module.exports = function validateToken(req, res, next) {
     if (!accessToken) res.send({ code: 400, error: "Acceso denegado" })
 
     jwt.verify(accessToken, process.env.SECRET, (err, username) => {
-        if (err) res.send({ code: 400, error: "Token incorecto" })
+        if (err) {
+            res.send({ code: 400, error: "Token incorecto" });
+            console.log({ code: 400, error: "Token incorecto" })
+        }
         else {
             next()
         }
