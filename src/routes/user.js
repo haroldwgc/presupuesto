@@ -169,6 +169,10 @@ function generateAccesToken(user) {
  */
 
 router.get("/user/:id", validateToken, async function (req, res) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
     const { id } = req.params;
     await userSchema.findById(id).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
