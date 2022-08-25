@@ -9,6 +9,7 @@ const categoryRoutes = require('./src/routes/category')
 const entryRoutes = require('./src/routes/entry')
 const operationRoutes = require('./src/routes/operation')
 const budgetRoutes = require('./src/routes/budget')
+const userRoutes = require('./src/routes/user')
 const cors = require('cors');
 
 
@@ -34,6 +35,7 @@ app.use('/api', categoryRoutes);
 app.use('/api', entryRoutes);
 app.use('/api', operationRoutes);
 app.use('/api', budgetRoutes);
+app.use('/api', userRoutes);
 
 app.use(express.json())
 app.use(require('body-parser').urlencoded({ extended: false }));

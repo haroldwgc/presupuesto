@@ -1,6 +1,7 @@
 const express = require('express');
 const categorySchema = require("../models/category");
 const router = express.Router();
+const validateToken = require('../helper')
 
 /**
  * @swagger
@@ -63,7 +64,7 @@ const router = express.Router();
  *                 
  */
 
-router.post("/category", express.json(), function (req, res) {
+router.post("/category", validateToken, express.json(), function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -98,7 +99,7 @@ router.post("/category", express.json(), function (req, res) {
  *          404: 
  *              description: budget not exist  
  */
-router.get("/category/:id", express.json(), function (req, res) {
+router.get("/category/:id", validateToken, function (req, res) {
     const { id } = req.params;
 
     res.header('Access-Control-Allow-Origin', '*');
@@ -126,7 +127,7 @@ router.get("/category/:id", express.json(), function (req, res) {
  *        items:
  *         $ref: '#/components/schemas/Category'  
  */
-router.get("/category", express.json(), function (req, res) {
+router.get("/category", validateToken, function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -164,7 +165,7 @@ router.get("/category", express.json(), function (req, res) {
  *           
  *      
  */
-router.put("/category/:id", express.json(), function (req, res) {
+router.put("/category/:id", validateToken, express.json(), function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -195,7 +196,7 @@ router.put("/category/:id", express.json(), function (req, res) {
  *          '404': 
  *             description: category not exist
  */
-router.delete("/category/:id", express.json(), function (req, res) {
+router.delete("/category/:id", validateToken, function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -203,7 +204,7 @@ router.delete("/category/:id", express.json(), function (req, res) {
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
 
     const { id } = req.params;
-    categorySchema.deleteOne({_id:id}).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
+    categorySchema.deleteOne({ _id: id }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
 
 module.exports = router;

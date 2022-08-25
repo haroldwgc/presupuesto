@@ -2,7 +2,7 @@ const express = require('express');
 const budgetSchema = require("../models/budget");
 const expenseSchema = require("../models/expense");
 const router = express.Router();
-
+const validateToken = require('../helper')
 //Crear budget
 /**
  * @swagger
@@ -18,7 +18,7 @@ const router = express.Router();
  *                  type: string
  *                  description: the category id
  *              type:
- *                  type: number
+ *                  type: string
  *                  description: the amount
  *              amount:
  *                  type: number
@@ -54,7 +54,7 @@ const router = express.Router();
  *           
  *      
  */
-router.post("/budget", express.json(), async function (req, res) {
+router.post("/budget", validateToken, express.json(), async function (req, res) {
     const budget = budgetSchema(req.body);
     await budget.save().then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
@@ -84,7 +84,7 @@ router.post("/budget", express.json(), async function (req, res) {
  *              description: budget not exist  
  */
 
-router.get("/budget/:id", express.json(), async function (req, res) {
+router.get("/budget/:id", validateToken, async function (req, res) {
     const { id } = req.params;
     await budgetSchema.findById(id).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
@@ -112,7 +112,7 @@ router.get("/budget/:id", express.json(), async function (req, res) {
  *          '404': 
  *              description: entry not exist  
  */
-router.get("/budget/byIdOperation/:id", express.json(), function (req, res) {
+router.get("/budget/byIdOperation/:id", validateToken, function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -140,7 +140,7 @@ router.get("/budget/byIdOperation/:id", express.json(), function (req, res) {
  *         $ref: '#/components/schemas/Budget'
  */
 //listar budget
-router.get("/budget", express.json(), async function (req, res) {
+router.get("/budget", validateToken, async function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -167,7 +167,7 @@ router.get("/budget", express.json(), async function (req, res) {
  *         $ref: '#/components/schemas/Budget'
  */
 //listar budget
-router.get("/budgetByExpense", express.json(), async function (req, res) {
+router.get("/budgetByExpense", validateToken, async function (req, res) {
 
 
     res.header('Access-Control-Allow-Origin', '*');
@@ -190,12 +190,12 @@ router.get("/budgetByExpense", express.json(), async function (req, res) {
                     total += z.amount;
 
                 })
-                totalBudgetList.push({ name: x.idCategory.split("|")[0], budgetAmount: x.amount, type: x.type, amount: total, exceeded: x.amount<total?true:false })
+                totalBudgetList.push({ name: x.idCategory.split("|")[0], budgetAmount: x.amount, type: x.type, amount: total, exceeded: x.amount < total ? true : false })
             }
 
         })
-        totalBudgetList=totalBudgetList.sort((a, b) => (a.type > b.type) ? 1 : -1)
-      
+    totalBudgetList = totalBudgetList.sort((a, b) => (a.type > b.type) ? 1 : -1)
+
     res.send(totalBudgetList)
 
 });
@@ -228,7 +228,7 @@ router.get("/budgetByExpense", express.json(), async function (req, res) {
  *           description: budget not exist 
  */
 //actualizar budget
-router.put("/budget/:id", express.json(), async function (req, res) {
+router.put("/budget/:id", validateToken, express.json(), async function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');

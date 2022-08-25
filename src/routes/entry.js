@@ -1,7 +1,7 @@
 const express = require('express');
 const entrySchema = require("../models/entry");
 const router = express.Router();
-
+const validateToken = require('../helper')
 /**
  * @swagger
  * components:
@@ -54,7 +54,7 @@ const router = express.Router();
  *              description: new entry created
  *                 
  */
-router.post("/entry", express.json(), function (req, res) {
+router.post("/entry", validateToken, express.json(), function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -90,7 +90,7 @@ router.post("/entry", express.json(), function (req, res) {
  *          '404': 
  *              description: entry not exist  
  */
-router.get("/entry/:id", express.json(), function (req, res) {
+router.get("/entry/:id", validateToken, function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -126,7 +126,7 @@ router.get("/entry/:id", express.json(), function (req, res) {
  *          '404': 
  *              description: entry not exist  
  */
- router.get("/entry/byIdOperation/:id", express.json(), function (req, res) {
+router.get("/entry/byIdOperation/:id", validateToken, function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -134,7 +134,7 @@ router.get("/entry/:id", express.json(), function (req, res) {
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
 
     const { id } = req.params;
-    entrySchema.find({idOperation:id}).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
+    entrySchema.find({ idOperation: id }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
 
 //listar entry
@@ -154,7 +154,7 @@ router.get("/entry/:id", express.json(), function (req, res) {
  *        items:
  *         $ref: '#/components/schemas/Entry'  
  */
-router.get("/entry", express.json(), function (req, res) {
+router.get("/entry", validateToken, function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -190,7 +190,7 @@ router.get("/entry", express.json(), function (req, res) {
  *          404: 
  *              description: entry not exist  
  */
-router.put("/entry/:id", express.json(), function (req, res) {
+router.put("/entry/:id", validateToken, express.json(), function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -221,7 +221,7 @@ router.put("/entry/:id", express.json(), function (req, res) {
  *          '404': 
  *             description: entry not exist
  */
-router.delete("/entry/:id", express.json(), function (req, res) {
+router.delete("/entry/:id", validateToken, function (req, res) {
     const { id } = req.params;
 
     res.header('Access-Control-Allow-Origin', '*');
@@ -229,7 +229,7 @@ router.delete("/entry/:id", express.json(), function (req, res) {
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
 
-    entrySchema.deleteOne({_id:id}).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
+    entrySchema.deleteOne({ _id: id }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
 
 module.exports = router;

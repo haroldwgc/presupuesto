@@ -1,6 +1,7 @@
 const express = require('express');
 const operationSchema = require("../models/operation");
 const router = express.Router();
+const validateToken = require('../helper')
 
 
 /**
@@ -13,14 +14,19 @@ const router = express.Router();
  *              name:
  *                  type: string
  *                  description: the operation id
+ *              idUser:
+ *                  type: string
+ *                  description: the user Id
  *              created:
  *                  type: string
  *                  description: the entry id             
  *          required:
  *              - name
+ *              - idUser
  *              - created
  *          example:
  *              name: "Mes Agosto"
+ *              idUser: "6307959f24b3447744302df4"
  *              created: '2022-03-02'
  *                    
  */
@@ -44,8 +50,8 @@ const router = express.Router();
  *              description: new operation created
  *                 
  */
-router.post("/operation", express.json(), function (req, res) {
-  
+router.post("/operation", validateToken, express.json(), function (req, res) {
+
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
@@ -80,8 +86,8 @@ router.post("/operation", express.json(), function (req, res) {
  *          404: 
  *              description: operation not exist  
  */
-router.get("/operation/:id", express.json(), function (req, res) {
-   
+router.get("/operation/:id", validateToken, function (req, res) {
+
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
@@ -94,10 +100,15 @@ router.get("/operation/:id", express.json(), function (req, res) {
 //listar gastos
 /**
  * @swagger
- * /api/operation:
+ * /api/operationByUser/{id}:
  *  get:
  *   summary: return all operation
  *   tags:   [Operation]
+ *   parameters:
+ *   -   in: path
+ *   name: id
+ *   type: string
+ *   description: The id of operation 
  *   responses:
  *    200:
  *     description: new operation created
@@ -108,14 +119,14 @@ router.get("/operation/:id", express.json(), function (req, res) {
  *        items:
  *         $ref: '#/components/schemas/Operation'  
  */
-router.get("/operation", express.json(), function (req, res) {
-   
+router.get("/operationByUser/:id", function (req, res) {
+    const { id } = req.params;
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
 
-    operationSchema.find().then((data) => res.json(data)).catch((error) => res.json({ message: error }))
+    operationSchema.find({idUser:id}).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
 
 //actualizar operation
@@ -144,8 +155,8 @@ router.get("/operation", express.json(), function (req, res) {
  *          404: 
  *              description: operation not exist  
  */
-router.put("/operation/:id", express.json(), function (req, res) {
-    
+router.put("/operation/:id", validateToken, express.json(), function (req, res) {
+
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
@@ -175,7 +186,7 @@ router.put("/operation/:id", express.json(), function (req, res) {
  *          '404': 
  *             description: operation not exist
  */
-router.delete("/operation/:id", express.json(), function (req, res) {
+router.delete("/operation/:id", validateToken, function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');

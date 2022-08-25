@@ -1,7 +1,7 @@
 const express = require('express');
 const expenseSchema = require("../models/expense");
 const router = express.Router();
-
+const validateToken = require('../helper')
 /**
  * @swagger
  * components:
@@ -74,7 +74,7 @@ const router = express.Router();
  *              description: new expense created
  *                 
  */
-router.post("/expense", express.json(), function (req, res) {
+router.post("/expense", validateToken, express.json(), function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -110,7 +110,7 @@ router.post("/expense", express.json(), function (req, res) {
  *          '404': 
  *              description: entry not exist  
  */
-router.get("/expense/byIdOperation/:id", express.json(), function (req, res) {
+router.get("/expense/byIdOperation/:id", validateToken, function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -145,7 +145,7 @@ router.get("/expense/byIdOperation/:id", express.json(), function (req, res) {
  *          404: 
  *              description: expense not exist  
  */
-router.get("/expense/:id", express.json(), function (req, res) {
+router.get("/expense/:id", validateToken, function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -173,7 +173,7 @@ router.get("/expense/:id", express.json(), function (req, res) {
  *        items:
  *         $ref: '#/components/schemas/Expense'  
  */
-router.get("/expense", express.json(), function (req, res) {
+router.get("/expense", validateToken, function (req, res) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -211,10 +211,10 @@ router.get("/expense", express.json(), function (req, res) {
  *          '404': 
  *             description: expense not exist  
  */
-router.put("/expense/:id", express.json(), function (req, res) {
+router.put("/expense/:id", validateToken, express.json(), function (req, res) {
     const { id } = req.params;
-    const { idOperation, nameCategory, iconCategory, name,type,amount,dateAmount } = req.body;
-    expenseSchema.updateOne({ _id: id }, { $set: { idOperation, nameCategory, iconCategory, name,type,amount, dateAmount } }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
+    const { idOperation, nameCategory, iconCategory, name, type, amount, dateAmount } = req.body;
+    expenseSchema.updateOne({ _id: id }, { $set: { idOperation, nameCategory, iconCategory, name, type, amount, dateAmount } }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
 
 //eliminar gasto
@@ -236,7 +236,7 @@ router.put("/expense/:id", express.json(), function (req, res) {
  *          '404': 
  *             description: expense not exist
  */
-router.delete("/expense/:id", express.json(), function (req, res) {
+router.delete("/expense/:id", validateToken, function (req, res) {
     const { id } = req.params;
     expenseSchema.deleteOne({ _id: id }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });

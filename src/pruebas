@@ -1,0 +1,2 @@
+GET http://localhost:9000/api/budget
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imhhcm9sZCIsImlhdCI6MTY2MTM3NTczNywiZXhwIjoxNjYxMzc2MDM3fQ.fW_BIU2rR-mpu8voP3BF5iR-5mjiPZJ2vOypb-_cd_4
