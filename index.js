@@ -52,17 +52,14 @@ const config = {
         }
     }
 }
-var whiteList = ['http:192.168.3.11:8080']
-var corsOption = {
-    origin: function (origin, callback) {
-        if (whiteList.indexOf(origin) == -1) {
-            callback(null, true)
-        } else {
-            callback(new Error('Not allow by cors'))
-        }
-    }
+const cors=require("cors");
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            //access-control-allow-credentials:true
+   optionSuccessStatus:200,
 }
-app.use(cors());
+
+app.use(cors(corsOptions)) // Use this after the variable declaration
 //mongodb connection
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('conectado a bd de mongo local'))
