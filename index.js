@@ -62,9 +62,7 @@ var corsOption = {
         }
     }
 }
-app.options("*", cors());
-
-app.use();
+app.use(cors());
 //mongodb connection
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('conectado a bd de mongo local'))
