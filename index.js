@@ -27,6 +27,8 @@ const swaggerSpec = {
 const app = express();
 const port = process.env.PORT || 9000;
 
+app.use(cors())
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDoc(swaggerSpec)));
 
 //Middleware
@@ -54,8 +56,7 @@ const config = {
 }
 
 
-
-app.use(cors()) // Use this after the variable declaration
+ // Use this after the variable declaration
 //mongodb connection
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('conectado a bd de mongo local'))
