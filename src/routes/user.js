@@ -89,37 +89,37 @@ const { use } = require('./budget');
  *              description: new operation created
  *                 
  */
-router.post("/auth", express.json(),async function (req, res) {
+router.post("/auth", express.json(), async function (req, res) {
 
     res.header("Access-Control-Allow-Origin", '*');
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
- 
-console.log("error pass")
+
+    console.log("error pass")
 
     const body = req.body;
 
-    const user=await userSchema.findOne({user:body.user});
-    if(user!==null){
+    const user = await userSchema.findOne({ user: body.user });
+    if (user !== null) {
         const validPassword = await bcrypt.compare(body.password, user.password);
         if (validPassword) {
             const username = { username: user }
             const accessToken = generateAccesToken(username)
             res.header('authorization', accessToken).json({ user: user, token: accessToken })
         } else {
-          res.status(400).json({ error: "Invalid Password" });
+            res.status(400).json({ code: 400, error: "Invalid Password" });
         }
-       
-    }else{
-        res.status(400).json({ error: "Invalid Password" });
+
+    } else {
+        res.status(400).json({ code: 400, error: "Invalid Password" });
     }
-    
+
 });
 
 
 function generateAccesToken(user) {
-    return jwt.sign(user, process.env.SECRET, { expiresIn: process.env.TIMEEXPIRED})
+    return jwt.sign(user, process.env.SECRET, { expiresIn: process.env.TIMEEXPIRED })
 }
 
 //Crear usuario
@@ -142,7 +142,7 @@ function generateAccesToken(user) {
  *           
  *      
  */
- router.post("/user", express.json(), async function (req, res) {
+router.post("/user", express.json(), async function (req, res) {
     const salt = await bcrypt.genSalt(10);
     const user = userSchema(req.body);
     user.password = await bcrypt.hash(user.password, salt);
@@ -179,7 +179,7 @@ router.get("/user/:id", validateToken, async function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
- 
+
     const { id } = req.params;
     await userSchema.findById(id).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
@@ -207,7 +207,7 @@ router.get("/user", validateToken, async function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-   
+
 
     await userSchema.find().then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
@@ -244,11 +244,11 @@ router.put("/user/:id", validateToken, express.json(), async function (req, res)
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-   
+
 
     const { id } = req.params;
-    const { user, password} = req.body;
-    await userSchema.updateOne({ _id: id }, { $set: { user, idCategory, password} }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
+    const { user, password } = req.body;
+    await userSchema.updateOne({ _id: id }, { $set: { user, idCategory, password } }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
 
 //eliminar user
@@ -276,7 +276,7 @@ router.delete("/user/:id", express.json(), async function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-  
+
 
     const { id } = req.params;
     await userSchema.deleteOne({ _id: id }).then((data) => res.json(data)).catch((error) => res.json({ message: error }))
