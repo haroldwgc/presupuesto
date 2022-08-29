@@ -152,10 +152,15 @@ router.get("/budget", validateToken, async function (req, res) {
 
 /**
  * @swagger
- * /api/budgetByExpense:
+ * /api/budgetByExpense/{id}:
  *  get:
  *   summary: return all Budgets
  *   tags:   [Budget]
+ *   parameters:
+ *    - in: path
+ *      name: id
+ *      type: string
+ *      description: The id of operation
  *   responses:
  *    200:
  *     description: new budget created
@@ -167,16 +172,18 @@ router.get("/budget", validateToken, async function (req, res) {
  *         $ref: '#/components/schemas/Budget'
  */
 //listar budget
-router.get("/budgetByExpense", validateToken, async function (req, res) {
+router.get("/budgetByExpense/:id", validateToken, async function (req, res) {
 
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-
+    const {
+        id
+      } = req.params;
     let totalBudgetList = [];
-    const expenseList = await expenseSchema.find().lean();
+    const expenseList = await expenseSchema.find({idOperation:id}).lean();
 
     const budgetList = await budgetSchema.find().lean();
 
