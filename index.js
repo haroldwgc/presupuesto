@@ -28,7 +28,7 @@ const app = express();
 const port = process.env.PORT || 9000;
 
 const whitlist=[
-    "https://haroldwgc.github.io",
+    "https://haroldwgc.github.io","http://127.0.0.1"
 ]
 
 const cosrOptions={
