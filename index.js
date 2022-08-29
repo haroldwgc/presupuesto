@@ -27,7 +27,21 @@ const swaggerSpec = {
 const app = express();
 const port = process.env.PORT || 9000;
 
-app.use(cors())
+const whitlist=[
+    "192.161.45.93",
+]
+
+const cosrOptions={
+    origin:function(origin, callback){
+        if(whitlist.indexOf(origin)!==-1 || !origin){
+            callback(null,true)
+        }else{
+           callback(new Error("Not Allowed by CORS"))
+        }
+    }
+}
+
+app.use(cors(cosrOptions))
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDoc(swaggerSpec)));
 
@@ -41,19 +55,6 @@ app.use('/api', userRoutes);
 
 app.use(express.json())
 app.use(require('body-parser').urlencoded({ extended: false }));
-
-const config = {
-    application: {
-        cors: {
-            server: [
-                {
-                    origin: "*", //servidor que deseas que consuma o (*) en caso que sea acceso libre
-                    credentials: true
-                }
-            ]
-        }
-    }
-}
 
 
  // Use this after the variable declaration
