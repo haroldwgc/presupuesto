@@ -41,7 +41,7 @@ const cosrOptions={
     }
 }
 
-app.use(cors(cosrOptions))
+app.use(cors())
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDoc(swaggerSpec)));
 
