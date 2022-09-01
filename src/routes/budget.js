@@ -146,13 +146,12 @@ router.get("/budget", validateToken, async function (req, res) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-
     await budgetSchema.find().then((data) => res.json(data)).catch((error) => res.json({ message: error }))
 });
 
 /**
  * @swagger
- * /api/budgetByExpense/{id}:
+ * /api/budgetByOperation/{id}:
  *  get:
  *   summary: return all Budgets
  *   tags:   [Budget]
@@ -172,7 +171,7 @@ router.get("/budget", validateToken, async function (req, res) {
  *         $ref: '#/components/schemas/Budget'
  */
 //listar budget
-router.get("/budgetByExpense/:id", validateToken, async function (req, res) {
+router.get("/budgetByOperation/:id", validateToken, async function (req, res) {
 
 
     res.header('Access-Control-Allow-Origin', '*');
@@ -197,7 +196,7 @@ router.get("/budgetByExpense/:id", validateToken, async function (req, res) {
                     total += z.amount;
 
                 })
-                totalBudgetList.push({ name: x.idCategory.split("|")[0], budgetAmount: x.amount, type: x.type, amount: total, exceeded: x.amount < total ? true : false })
+                totalBudgetList.push({_id:x._id, icon:x.idCategory.split("|")[1], name: x.idCategory.split("|")[0], budgetAmount: x.amount, type: x.type, amount: total, exceeded: x.amount < total ? true : false })
             }
 
         })
